@@ -1,16 +1,27 @@
 import React from 'react';
 import {TouchableOpacity, Animated} from 'react-native';
 
-export default NavigationDot = ({scrollTo}) => {
+export default NavigationDot = ({
+  scrollTo,
+  activeSliderIndex,
+  setActiveSliderIndex,
+}) => {
+  const onPress = () => {
+    scrollTo();
+    setActiveSliderIndex();
+  };
+
   return (
-    <TouchableOpacity onPress={scrollTo}>
+    <TouchableOpacity onPress={onPress}>
       <Animated.View
         style={{
-          width: 12,
-          height: 12,
-          backgroundColor: 'orange',
-          borderRadius: 6,
-          marginHorizontal: 5,
+          width: 14,
+          height: 14,
+          backgroundColor: activeSliderIndex ? 'white' : 'orange',
+          borderRadius: 7,
+          marginHorizontal: 4,
+          borderWidth: 2,
+          borderColor: activeSliderIndex ? 'orange' : 'lightgrey',
         }}
       />
     </TouchableOpacity>
