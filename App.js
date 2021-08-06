@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, SafeAreaView, Button} from 'react-native';
-
+import {useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 
 import {Provider} from 'react-redux';
@@ -10,7 +10,13 @@ import store from './store/store';
 
 import BottomTabs from './navigation/BottomTabs';
 
+import fetchNews from './functions/fetchNews';
+
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchNews());
+  }, []);
   return (
     <NavigationContainer>
       <BottomTabs />
