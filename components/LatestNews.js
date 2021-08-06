@@ -1,13 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, SafeAreaView, Dimensions} from 'react-native';
+import {useSelector} from 'react-redux';
+import BreakingItem from './BreakingItem';
 
 const {width, height} = Dimensions.get('screen');
 
 const PADDING = width * 0.1;
 
 export default LatestNews = () => {
+  const newsArray5_15 = useSelector(state => {
+    return state.news.filter((item, index) => index > 4 && index < 15);
+  });
+  // useEffect(() => {
+  //   console.log('NEWSARRAY', newsArray);
+  // }, [newsArray]);
+
   return (
-    <View style={{height, width}}>
+    <View style={{width}}>
       <View style={{paddingLeft: PADDING, paddingTop: PADDING / 2}}>
         <Text
           style={{
@@ -18,13 +27,19 @@ export default LatestNews = () => {
           Latest News
         </Text>
       </View>
-      {/* {[1, 2, 3, 4, 5].map((item, index) => {
-        return (
-          <View
-            key={index}
-            style={{width: width, height: 100, backgroundColor: 'red'}}></View>
-        );
-      })} */}
+      <View style={{marginTop: PADDING / 2}}>
+        {newsArray5_15.length > 0 &&
+          newsArray5_15.map((item, index) => {
+            return (
+              <BreakingItem
+                key={index}
+                img={item.urlToImage}
+                title={item.title}
+                date={item.publishedAt}
+              />
+            );
+          })}
+      </View>
     </View>
   );
 };

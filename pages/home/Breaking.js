@@ -21,16 +21,19 @@ export default Home = () => {
   const dispatch = useDispatch();
 
   return (
-    <View
+    <ScrollView
+      contentContainerStyle={{
+        alignItems: 'center',
+      }}
+      bounces={false}
       style={{
         height: height,
         width: width,
         backgroundColor: 'lightgrey',
-        alignItems: 'center',
       }}>
       {/* <Button title="AddOne" onPress={() => dispatch(ADD_ACTION())} /> */}
       <Swiper />
       <LatestNews />
-    </View>
+    </ScrollView>
   );
 };
