@@ -17,7 +17,7 @@ import LatestNews from '../../components/LatestNews';
 
 const {width, height} = Dimensions.get('screen');
 
-export default Home = () => {
+export default Home = props => {
   const dispatch = useDispatch();
 
   return (
@@ -32,8 +32,8 @@ export default Home = () => {
         backgroundColor: 'lightgrey',
       }}>
       {/* <Button title="AddOne" onPress={() => dispatch(ADD_ACTION())} /> */}
-      <Swiper />
-      <LatestNews />
+      <Swiper {...props} />
+      <LatestNews {...props} />
     </ScrollView>
   );
 };

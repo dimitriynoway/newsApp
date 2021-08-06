@@ -1,5 +1,6 @@
-export default (pD, cD) => {
+export default pD => {
   const pastDate = Date.parse(pD);
+  const cD = new Date();
   const currentDate = Date.parse(cD);
 
   const diff = currentDate - pastDate;

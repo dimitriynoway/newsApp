@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {SafeAreaView, View, Text} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import TopTabNavigation from './TopTabNavigation';
+import Home from '../pages/home/Home';
 
 const Tab = createBottomTabNavigator();
 
@@ -35,8 +35,8 @@ export default BottomTabs = () => {
             <Icon name="home" size={27} color={focused ? 'orange' : 'black'} />
           ),
         }}
-        name="TopTabNavigation"
-        component={TopTabNavigation}
+        name="Home"
+        component={Home}
       />
       <Tab.Screen
         options={{

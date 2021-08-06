@@ -7,7 +7,7 @@ const {width, height} = Dimensions.get('screen');
 
 const PADDING = width * 0.1;
 
-export default LatestNews = () => {
+export default LatestNews = props => {
   const newsArray5_15 = useSelector(state => {
     return state.news.filter((item, index) => index > 4 && index < 15);
   });
@@ -30,14 +30,7 @@ export default LatestNews = () => {
       <View style={{marginTop: PADDING / 2}}>
         {newsArray5_15.length > 0 &&
           newsArray5_15.map((item, index) => {
-            return (
-              <BreakingItem
-                key={index}
-                img={item.urlToImage}
-                title={item.title}
-                date={item.publishedAt}
-              />
-            );
+            return <BreakingItem {...props} item={item} key={index} />;
           })}
       </View>
     </View>

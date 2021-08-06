@@ -1,14 +1,23 @@
 import React from 'react';
-import {View, Text, SafeAreaView, Dimensions, Image} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import parseTime from '../functions/parseTime';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 const {width, height} = Dimensions.get('screen');
 const PADDING = width * 0.1;
 const ITEM_PHOTO = width * 0.32;
 
+import {SharedElement} from 'react-navigation-shared-element';
+
 const currentDate = new Date();
 
-export default BreakingItem = ({img, title, date}) => {
+export default BreakingItem = ({item, navigation}) => {
   return (
     <View
       style={{
@@ -42,7 +51,7 @@ export default BreakingItem = ({img, title, date}) => {
               fontSize: 17,
               fontWeight: '600',
             }}>
-            {title}
+            {item.title}
           </Text>
           <Text
             style={{
@@ -52,7 +61,7 @@ export default BreakingItem = ({img, title, date}) => {
               fontSize: 14,
               fontWeight: '400',
             }}>
-            {parseTime(date, currentDate)}
+            {parseTime(item.publishedAt, currentDate)}
           </Text>
           <Icon
             name="bookmark"
@@ -66,20 +75,24 @@ export default BreakingItem = ({img, title, date}) => {
           />
         </View>
       </View>
-      <View
-        style={{
-          backgroundColor: 'white',
-          width: ITEM_PHOTO,
-          height: ITEM_PHOTO,
-          marginLeft: PADDING,
-          borderRadius: 10,
-        }}>
-        <Image
-          source={{uri: img}}
-          resizeMode={'cover'}
-          style={{flex: 1, borderRadius: 10}}
-        />
-      </View>
+      <TouchableOpacity onPress={() => navigation.navigate('Details', {item})}>
+        <SharedElement id={`item.${item.publishedAt}.photo`}>
+          <View
+            style={{
+              backgroundColor: 'white',
+              width: ITEM_PHOTO,
+              height: ITEM_PHOTO,
+              marginLeft: PADDING,
+              borderRadius: 10,
+            }}>
+            <Image
+              source={{uri: item.urlToImage}}
+              resizeMode={'cover'}
+              style={{flex: 1, borderRadius: 10}}
+            />
+          </View>
+        </SharedElement>
+      </TouchableOpacity>
     </View>
   );
 };

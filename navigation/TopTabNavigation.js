@@ -10,7 +10,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const {width, heigth} = Dimensions.get('screen');
 
-export default TopTabNavigation = () => {
+export default TopTabNavigation = props => {
   return (
     <Tab.Navigator
       swipeEnabled={false}
@@ -31,7 +31,7 @@ export default TopTabNavigation = () => {
         },
         //allowFontScaling: true,
       }}>
-      <Tab.Screen name="Breaking" component={Breaking} />
+      <Tab.Screen name="Breaking" component={Breaking} {...props} />
       <Tab.Screen name="Health" component={Health} />
       <Tab.Screen name="Tech" component={Tech} />
       <Tab.Screen name="Sport" component={Sport} />
