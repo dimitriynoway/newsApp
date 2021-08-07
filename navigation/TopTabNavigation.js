@@ -32,7 +32,7 @@ export default TopTabNavigation = props => {
         //allowFontScaling: true,
       }}>
       <Tab.Screen name="Breaking" component={Breaking} {...props} />
-      <Tab.Screen name="Health" component={Health} />
+      <Tab.Screen name="Health" component={Health} {...props} />
       <Tab.Screen name="Tech" component={Tech} />
       <Tab.Screen name="Sport" component={Sport} />
     </Tab.Navigator>

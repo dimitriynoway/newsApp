@@ -8,12 +8,10 @@ const {width, height} = Dimensions.get('screen');
 const PADDING = width * 0.1;
 
 export default LatestNews = props => {
+  const {title} = props;
   const newsArray5_15 = useSelector(state => {
     return state.news.filter((item, index) => index > 4 && index < 15);
   });
-  // useEffect(() => {
-  //   console.log('NEWSARRAY', newsArray);
-  // }, [newsArray]);
 
   return (
     <View style={{width}}>
@@ -24,7 +22,7 @@ export default LatestNews = props => {
             fontSize: 29,
             fontWeight: '500',
           }}>
-          Latest News
+          {title}
         </Text>
       </View>
       <View style={{marginTop: PADDING / 2}}>

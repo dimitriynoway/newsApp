@@ -6,7 +6,9 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  TouchableOpacity,
 } from 'react-native';
+import {SharedElement} from 'react-navigation-shared-element';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
 import {useSelector} from 'react-redux';
@@ -18,7 +20,7 @@ let ITEM_HEIGHT = height * 0.23;
 const CONTENT_WIDTH = ITEM_WIDTH - 40;
 const CONTENT_HEIGHT = ITEM_HEIGHT - 40;
 
-export default Slider = () => {
+export default Slider = ({navigation}) => {
   const itemArray = useSelector(state =>
     state.news.filter((item, index) => index < 5),
   );
@@ -83,7 +85,11 @@ export default Slider = () => {
         }}>
         {itemArray.map((item, index) => {
           return (
-            <View style={styles.block1} key={index}>
+            <TouchableOpacity
+              style={styles.block1}
+              key={index}
+              // onPress={() => props.navigation.navigate('Detatils', {item})}
+              onPress={() => navigation.navigate('Details', {item})}>
               <View //?CONTENT VIEW
                 style={{
                   width: CONTENT_WIDTH,
@@ -123,15 +129,19 @@ export default Slider = () => {
                   {item.title}
                 </Text>
               </View>
-              <Image
-                style={{
-                  width: ITEM_WIDTH,
-                  height: ITEM_HEIGHT,
-                  borderRadius: 15,
-                }}
-                source={{uri: item.urlToImage}}
-                resizeMode="cover"
-              />
+
+              <SharedElement id={`item.${item.publishedAt}.photo`}>
+                <Image
+                  style={{
+                    width: ITEM_WIDTH,
+                    height: ITEM_HEIGHT,
+                    borderRadius: 15,
+                  }}
+                  source={{uri: item.urlToImage}}
+                  resizeMode="cover"
+                />
+              </SharedElement>
+
               <View
                 style={{
                   backgroundColor: 'black',
@@ -143,7 +153,7 @@ export default Slider = () => {
                   opacity: 0.5,
                 }}
               />
-            </View>
+            </TouchableOpacity>
           );
         })}
       </Swiper>

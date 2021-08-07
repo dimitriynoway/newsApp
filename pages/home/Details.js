@@ -85,7 +85,21 @@ const Details = props => {
               borderBottomRightRadius: 10,
             }}
           />
+          {/* <View
+            style={{
+              flex: 1,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0,0,0,.4)',
+              borderBottomRightRadius: 10,
+              borderBottomLeftRadius: 10,
+            }}
+          /> */}
         </SharedElement>
+
         <TouchableOpacity
           onPress={() => props.navigation.goBack()}
           style={{
@@ -116,20 +130,42 @@ const Details = props => {
         <TouchableOpacity
           onPress={() => console.log('add to book marks')}
           style={{
+            display: 'flex',
+            flexDirection: 'row',
             position: 'absolute',
             bottom: PADDING,
-            right: 2 * PADDING,
+            right: 4.5 * PADDING,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
           <Icon name="remove-red-eye" size={26} color="white" />
+          <Text
+            style={{
+              color: 'white',
+              marginLeft: 5,
+            }}>
+            123
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => console.log('add to book marks')}
           style={{
+            display: 'flex',
+            flexDirection: 'row',
             position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
             bottom: PADDING,
             right: PADDING,
           }}>
           <Comment name="comment" size={26} color="white" />
+          <Text
+            style={{
+              color: 'white',
+              marginLeft: 5,
+            }}>
+            123
+          </Text>
         </TouchableOpacity>
         <Text
           style={{

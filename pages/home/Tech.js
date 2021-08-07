@@ -1,12 +1,23 @@
 import React from 'react';
-import {View, SafeAreaView, Text} from 'react-native';
+import {Dimensions, ScrollView} from 'react-native';
+import LatestNews from '../../components/LatestNews';
 
-export default Tech = () => {
+const {width, height} = Dimensions.get('screen');
+
+export default Tech = props => {
   return (
-    <SafeAreaView>
-      <View>
-        <Text>Tech</Text>
-      </View>
-    </SafeAreaView>
+    <ScrollView
+      contentContainerStyle={{
+        alignItems: 'center',
+      }}
+      bounces={false}
+      showsVerticalScrollIndicator={false}
+      style={{
+        height: height,
+        width: width,
+        backgroundColor: 'lightgrey',
+      }}>
+      <LatestNews {...props} title={'Tech'} />
+    </ScrollView>
   );
 };
