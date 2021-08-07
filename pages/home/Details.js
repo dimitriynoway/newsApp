@@ -11,6 +11,7 @@ import {
 import {SharedElement} from 'react-navigation-shared-element';
 import parseTime from '../../functions/parseTime';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Comment from 'react-native-vector-icons/FontAwesome';
 const {width, height} = Dimensions.get('screen');
 const PADDING = (width * 0.1) / 2;
 const Title = ({title}) => {
@@ -72,40 +73,76 @@ const Details = props => {
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <StatusBar hidden />
-      <SharedElement id={`item.${item.publishedAt}.photo`}>
-        <View>
+      <View>
+        <SharedElement id={`item.${item.publishedAt}.photo`}>
           <Image
             resizeMode="cover"
             source={{uri: item.urlToImage}}
             style={{
               width,
-              height: height * 0.37,
+              height: height * 0.4,
               borderBottomLeftRadius: 10,
               borderBottomRightRadius: 10,
             }}
           />
-          <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
-            style={{
-              position: 'absolute',
-              top: 2 * PADDING,
-              left: PADDING,
-            }}>
-            <Icon name="arrow-back-ios" size={26} color="white" />
-          </TouchableOpacity>
-          <Text
-            style={{
-              position: 'absolute',
-              bottom: PADDING,
-              left: PADDING,
-              color: 'white',
-            }}>
-            {parseTime(item.publishedAt)}
-          </Text>
-        </View>
-        <Title title={item.title} />
-        <DetailText description={item.description} content={item.content} />
-      </SharedElement>
+        </SharedElement>
+        <TouchableOpacity
+          onPress={() => props.navigation.goBack()}
+          style={{
+            position: 'absolute',
+            top: 2 * PADDING,
+            left: PADDING,
+          }}>
+          <Icon name="arrow-back-ios" size={26} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => console.log('add to book marks')}
+          style={{
+            position: 'absolute',
+            top: 2 * PADDING,
+            right: 3 * PADDING,
+          }}>
+          <Icon name="share" size={26} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => console.log('add to book marks')}
+          style={{
+            position: 'absolute',
+            top: 2 * PADDING,
+            right: PADDING,
+          }}>
+          <Icon name="bookmark" size={26} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => console.log('add to book marks')}
+          style={{
+            position: 'absolute',
+            bottom: PADDING,
+            right: 2 * PADDING,
+          }}>
+          <Icon name="remove-red-eye" size={26} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => console.log('add to book marks')}
+          style={{
+            position: 'absolute',
+            bottom: PADDING,
+            right: PADDING,
+          }}>
+          <Comment name="comment" size={26} color="white" />
+        </TouchableOpacity>
+        <Text
+          style={{
+            position: 'absolute',
+            bottom: PADDING,
+            left: PADDING,
+            color: 'white',
+          }}>
+          {parseTime(item.publishedAt)}
+        </Text>
+      </View>
+      <Title title={item.title} />
+      <DetailText description={item.description} content={item.content} />
     </View>
   );
 };
