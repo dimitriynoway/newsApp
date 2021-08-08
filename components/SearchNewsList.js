@@ -10,7 +10,7 @@ const PADDING = width * 0.1;
 export default SearchNewsList = props => {
   const {title} = props;
   const filteredNews = useSelector(state =>
-    state.news.search?.filter(item => item.urlToImage),
+    state.news.news.search?.filter(item => item.urlToImage),
   );
 
   return (

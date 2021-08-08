@@ -10,7 +10,7 @@ const PADDING = width * 0.1;
 export default HotNewsList = props => {
   const {title} = props;
   const filteredNews = useSelector(state =>
-    state.news.hotNews.filter(item => item.urlToImage),
+    state.news.news.hotNews.filter(item => item.urlToImage),
   );
   const newsArray5_15 = filteredNews.filter(
     (item, index) => index > 7 && index < 21,

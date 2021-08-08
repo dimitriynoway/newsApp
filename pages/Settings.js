@@ -1,23 +1,32 @@
 import React, {useState} from 'react';
 import {View, Text, SafeAreaView, Dimensions, Switch} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useSelector, useDispatch} from 'react-redux';
 const {width, height} = Dimensions.get('screen');
+import {SET_THEME} from '../store/actions/themeAction';
 const PADDING = width * 0.1;
 export default Settings = () => {
+  const theme = useSelector(state => state.theme.themeDark);
+  const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const toggleSwitch = () => dispatch(SET_THEME());
   const [isEnabled2, setIsEnabled2] = useState(false);
   const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
   const [isEnabled3, setIsEnabled3] = useState(false);
   const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
   return (
-    <SafeAreaView style={{backgroundColor: 'white'}}>
-      <View style={{backgroundColor: 'lightgrey', width, height}}>
+    <SafeAreaView style={{backgroundColor: theme ? '#343A40' : 'white'}}>
+      <View
+        style={{
+          backgroundColor: theme ? '#343A40' : '#e9ecef',
+          width,
+          height,
+        }}>
         <View
           style={{
             height: height * 0.23,
             width,
-            backgroundColor: 'white',
+            backgroundColor: theme ? '#343A40' : 'white',
             display: 'flex',
             justifyContent: 'space-around',
             alignItems: 'center',
@@ -27,6 +36,7 @@ export default Settings = () => {
               style={{
                 fontSize: 22,
                 fontWeight: '600',
+                color: theme ? 'white' : 'black',
               }}>
               Settings
             </Text>
@@ -45,7 +55,7 @@ export default Settings = () => {
                 width: 100,
                 height: 100,
                 borderRadius: 50,
-                backgroundColor: 'lightgrey',
+                backgroundColor: '#e9ecef',
               }}></View>
             <View
               style={{
@@ -55,10 +65,20 @@ export default Settings = () => {
                 justifyContent: 'space-evenly',
                 alignItems: 'flex-start',
               }}>
-              <Text style={{fontWeight: '500', fontSize: 18}}>
+              <Text
+                style={{
+                  fontWeight: '500',
+                  fontSize: 18,
+                  color: theme ? 'white' : 'black',
+                }}>
                 Dmitriy Babenko
               </Text>
-              <Text style={{fontWeight: '300', fontSize: 14}}>
+              <Text
+                style={{
+                  fontWeight: '300',
+                  fontSize: 14,
+                  color: theme ? 'white' : 'black',
+                }}>
                 dimab7412@gmail.com
               </Text>
               <Text
@@ -81,7 +101,7 @@ export default Settings = () => {
           }}>
           <View
             style={{
-              backgroundColor: 'white',
+              backgroundColor: theme ? '#6C757D' : 'white',
               height: 50,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -90,19 +110,24 @@ export default Settings = () => {
               borderTopLeftRadius: 5,
               borderTopRightRadius: 5,
             }}>
-            <Text>Dark mode</Text>
+            <Text
+              style={{
+                color: theme ? 'white' : 'black',
+              }}>
+              Dark mode
+            </Text>
             <Switch
               style={{transform: [{scaleX: 0.7}, {scaleY: 0.7}]}}
               trackColor={{false: 'black', true: 'orange'}}
-              thumbColor={isEnabled ? 'white' : 'white'}
+              thumbColor={theme ? 'white' : 'white'}
               ios_backgroundColor="black"
               onValueChange={toggleSwitch}
-              value={isEnabled}
+              value={theme}
             />
           </View>
           <View
             style={{
-              backgroundColor: 'white',
+              backgroundColor: theme ? '#6C757D' : 'white',
               height: 50,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -111,14 +136,19 @@ export default Settings = () => {
               borderBottomLeftRadius: 5,
               borderBottomRightRadius: 5,
             }}>
-            <Text>Notification</Text>
+            <Text
+              style={{
+                color: theme ? 'white' : 'black',
+              }}>
+              Notification
+            </Text>
             <Switch
               style={{
                 transform: [{scaleX: 0.7}, {scaleY: 0.7}],
               }}
-              trackColor={{false: 'black', true: 'orange'}}
+              trackColor={{false: theme ? '#343A40' : 'black', true: 'orange'}}
               thumbColor={isEnabled2 ? 'white' : 'white'}
-              ios_backgroundColor="black"
+              ios_backgroundColor={theme ? '#343A40' : 'black'}
               onValueChange={toggleSwitch2}
               value={isEnabled2}
             />
@@ -131,6 +161,7 @@ export default Settings = () => {
               fontSize: 19,
               fontWeight: '500',
               paddingLeft: (2 * PADDING) / 3,
+              color: theme ? 'white' : 'black',
             }}>
             Account
           </Text>
@@ -143,7 +174,7 @@ export default Settings = () => {
           }}>
           <View
             style={{
-              backgroundColor: 'white',
+              backgroundColor: theme ? '#6C757D' : 'white',
               height: 50,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -152,24 +183,42 @@ export default Settings = () => {
               borderTopLeftRadius: 5,
               borderTopRightRadius: 5,
             }}>
-            <Text>Edit Account</Text>
-            <Icon name="arrow-forward-ios" size={14} />
+            <Text
+              style={{
+                color: theme ? 'white' : 'black',
+              }}>
+              Edit Account
+            </Text>
+            <Icon
+              name="arrow-forward-ios"
+              size={14}
+              color={theme ? 'white' : 'black'}
+            />
           </View>
           <View
             style={{
-              backgroundColor: 'white',
+              backgroundColor: theme ? '#6C757D' : 'white',
               height: 50,
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
               paddingHorizontal: PADDING / 2,
             }}>
-            <Text>Change Password</Text>
-            <Icon name="arrow-forward-ios" size={14} />
+            <Text
+              style={{
+                color: theme ? 'white' : 'black',
+              }}>
+              Change Password
+            </Text>
+            <Icon
+              name="arrow-forward-ios"
+              size={14}
+              color={theme ? 'white' : 'black'}
+            />
           </View>
           <View
             style={{
-              backgroundColor: 'white',
+              backgroundColor: theme ? '#6C757D' : 'white',
               height: 50,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -178,8 +227,17 @@ export default Settings = () => {
               borderBottomLeftRadius: 5,
               borderBottomRightRadius: 5,
             }}>
-            <Text>Language</Text>
-            <Icon name="arrow-forward-ios" size={14} />
+            <Text
+              style={{
+                color: theme ? 'white' : 'black',
+              }}>
+              Language
+            </Text>
+            <Icon
+              name="arrow-forward-ios"
+              size={14}
+              color={theme ? 'white' : 'black'}
+            />
           </View>
         </View>
 
@@ -189,6 +247,7 @@ export default Settings = () => {
               fontSize: 19,
               fontWeight: '500',
               paddingLeft: (2 * PADDING) / 3,
+              color: theme ? 'white' : 'black',
             }}>
             Privacy and Security
           </Text>
@@ -201,7 +260,7 @@ export default Settings = () => {
           }}>
           <View
             style={{
-              backgroundColor: 'white',
+              backgroundColor: theme ? '#6C757D' : 'white',
               height: 50,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -210,7 +269,12 @@ export default Settings = () => {
               borderTopLeftRadius: 5,
               borderTopRightRadius: 5,
             }}>
-            <Text>Private Account</Text>
+            <Text
+              style={{
+                color: theme ? 'white' : 'black',
+              }}>
+              Private Account
+            </Text>
             {/* <Switch
               style={{
                 transform: [{scaleX: 0.7}, {scaleY: 0.7}],
@@ -221,11 +285,15 @@ export default Settings = () => {
               onValueChange={toggleSwitch3}
               value={isEnabled3}
             /> */}
-            <Icon name="arrow-forward-ios" size={14} />
+            <Icon
+              name="arrow-forward-ios"
+              size={14}
+              color={theme ? 'white' : 'black'}
+            />
           </View>
           <View
             style={{
-              backgroundColor: 'white',
+              backgroundColor: theme ? '#6C757D' : 'white',
               height: 50,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -234,11 +302,21 @@ export default Settings = () => {
               borderBottomLeftRadius: 5,
               borderBottomRightRadius: 5,
             }}>
-            <Text>Privacy and Security Help</Text>
-            <Icon name="arrow-forward-ios" size={14} />
+            <Text
+              style={{
+                color: theme ? 'white' : 'black',
+              }}>
+              Privacy and Security Help
+            </Text>
+            <Icon
+              name="arrow-forward-ios"
+              size={14}
+              color={theme ? 'white' : 'black'}
+            />
           </View>
         </View>
       </View>
     </SafeAreaView>
   );
 };
+//#CFCFEA

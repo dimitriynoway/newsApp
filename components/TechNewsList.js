@@ -10,7 +10,7 @@ const PADDING = width * 0.1;
 export default HealthNewsList = props => {
   const {title} = props;
   const filteredNews = useSelector(state =>
-    state.news.tech.filter(item => item.urlToImage),
+    state.news.news.tech.filter(item => item.urlToImage),
   );
   const techTopTenNews = filteredNews.filter(
     (item, index) => index >= 0 && index < 10,

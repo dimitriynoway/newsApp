@@ -6,7 +6,9 @@ import {SafeAreaView, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Home from '../pages/home/Home';
 import Settings from '../pages/Settings';
-import Search from '../pages/Search';
+import Search from '../pages/search/Search';
+import SearchMain from '../pages/search/SearchMain';
+import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,20 +23,34 @@ const DetailsTemporary = () => {
 };
 
 export default BottomTabs = () => {
+  const theme = useSelector(state => state.theme.themeDark);
   return (
     <Tab.Navigator
-      sceneContainerStyle={{backgroundColor: 'white'}}
+      sceneContainerStyle={{backgroundColor: 'green'}}
       tabBarOptions={{
         showLabel: false,
         style: {
           paddingBottom: 0,
           height: 80,
+          backgroundColor: theme ? '#343A40' : 'white',
         },
       }}>
       <Tab.Screen
         options={{
           tabBarIcon: ({focused, color, size}) => (
-            <Icon name="home" size={27} color={focused ? 'orange' : 'black'} />
+            <Icon
+              name="home"
+              size={27}
+              color={
+                focused
+                  ? theme
+                    ? '#6C757D'
+                    : 'orange'
+                  : theme
+                  ? 'white'
+                  : 'black'
+              }
+            />
           ),
         }}
         name="Home"
@@ -46,12 +62,20 @@ export default BottomTabs = () => {
             <Icon
               name="search"
               size={27}
-              color={focused ? 'orange' : 'black'}
+              color={
+                focused
+                  ? theme
+                    ? '#6C757D'
+                    : 'orange'
+                  : theme
+                  ? 'white'
+                  : 'black'
+              }
             />
           ),
         }}
         name="Search"
-        component={Search}
+        component={SearchMain}
       />
 
       <Tab.Screen
@@ -60,7 +84,15 @@ export default BottomTabs = () => {
             <Icon
               name="bookmark"
               size={27}
-              color={focused ? 'orange' : 'black'}
+              color={
+                focused
+                  ? theme
+                    ? '#6C757D'
+                    : 'orange'
+                  : theme
+                  ? 'white'
+                  : 'black'
+              }
             />
           ),
         }}
@@ -73,7 +105,15 @@ export default BottomTabs = () => {
             <Icon
               name="settings"
               size={27}
-              color={focused ? 'orange' : 'black'}
+              color={
+                focused
+                  ? theme
+                    ? '#6C757D'
+                    : 'orange'
+                  : theme
+                  ? 'white'
+                  : 'black'
+              }
             />
           ),
         }}

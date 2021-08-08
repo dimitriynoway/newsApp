@@ -4,7 +4,7 @@ export default () => {
   return async dispatch => {
     // dispatch(START_FETCHING_NEWS());
     const news = await axios.get(
-      `https://newsapi.org/v2/top-headlines?category=technology&apiKey=e35f3aa11989451ebfb5a790050fb4ab`,
+      `https://newsapi.org/v2/top-headlines?category=technology&apiKey=6d94eef8169646a9b751fa7b75a56ea9`,
     );
     console.log('YOUR ARE WELCOME', news.data.articles);
     dispatch(SET_TECH_NEWS(news.data.articles));

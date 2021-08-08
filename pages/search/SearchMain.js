@@ -1,14 +1,14 @@
 import React from 'react';
-import {View} from 'react-native';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
-import Details from './Details';
-import TopTabNavigation from '../../navigation/TopTabNavigation';
+import Details from '../home/Details';
+
+import Search from './Search';
 
 const Stack = createSharedElementStackNavigator();
 export default BreakinCompose = () => {
   return (
     <Stack.Navigator initialRouteName="Home" headerMode="none" mode="modal">
-      <Stack.Screen name="Home" component={TopTabNavigation} />
+      <Stack.Screen name="Home" component={Search} />
       <Stack.Screen
         options={() => ({
           transitionSpec: {

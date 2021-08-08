@@ -1,9 +1,16 @@
 import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
-import {View, Text, SafeAreaView, Button} from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  Dimensions,
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
-
+const {width, height} = Dimensions.get('screen');
 import {Provider} from 'react-redux';
 
 import store from './store/store';
@@ -19,7 +26,16 @@ const App = () => {
   }, []);
   return (
     <NavigationContainer>
-      <BottomTabs />
+      <SafeAreaView
+        style={{
+          flex: 1,
+          width,
+          height,
+          backgroundColor: 'grey',
+        }}>
+        <StatusBar backgroundColor="grey" />
+        <BottomTabs />
+      </SafeAreaView>
     </NavigationContainer>
   );
 };

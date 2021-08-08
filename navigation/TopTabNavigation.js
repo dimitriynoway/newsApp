@@ -5,21 +5,23 @@ import Health from '../pages/home/Health';
 import Tech from '../pages/home/Tech';
 import Sport from '../pages/home/Sport';
 import Breaking from '../pages/home/Breaking';
+import {useSelector} from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
 
 const {width, heigth} = Dimensions.get('screen');
 
 export default TopTabNavigation = props => {
+  const theme = useSelector(state => state.theme.themeDark);
   return (
     <Tab.Navigator
       swipeEnabled={false}
-      sceneContainerStyle={{backgroundColor: 'lightgrey'}}
-      style={{paddingTop: 120, width}}
+      sceneContainerStyle={{backgroundColor: 'red'}}
       tabBarOptions={{
-        // style: {
-        //   backgroundColor: 'white',
-        // },
+        style: {
+          backgroundColor: theme ? '#343A40' : '#e9ecef',
+          // marginTop: 42,
+        },
 
         indicatorStyle: {
           backgroundColor: 'orange',
@@ -33,8 +35,8 @@ export default TopTabNavigation = props => {
       }}>
       <Tab.Screen name="Breaking" component={Breaking} {...props} />
       <Tab.Screen name="Health" component={Health} {...props} />
-      <Tab.Screen name="Tech" component={Tech} />
-      <Tab.Screen name="Sport" component={Sport} />
+      <Tab.Screen name="Tech" component={Tech} {...props} />
+      <Tab.Screen name="Sport" component={Sport} {...props} />
     </Tab.Navigator>
   );
 };

@@ -9,9 +9,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import fetchSearchNews from '../functions/fetchSearchNews';
+import fetchSearchNews from '../../functions/fetchSearchNews';
 import {useDispatch} from 'react-redux';
-import SearchNewsList from '../components/SearchNewsList';
+import SearchNewsList from '../../components/SearchNewsList';
 const {width, height} = Dimensions.get('screen');
 const PADDING = width * 0.1;
 export default Search = props => {
@@ -20,7 +20,7 @@ export default Search = props => {
   const [search, setSearch] = React.useState(null);
 
   const searchWithEnter = e => {
-    if (!e.native.text) return;
+    if (!e.nativeEvent.text) return;
     dispatch(fetchSearchNews(e.nativeEvent.text));
   };
   const searchWithButton = () => {
@@ -37,6 +37,7 @@ export default Search = props => {
         bounces={false}
         style={{
           backgroundColor: 'lightgrey',
+          minHeight: height + 40,
         }}>
         <View
           style={{
@@ -52,7 +53,7 @@ export default Search = props => {
             onChangeText={setSearch}
             value={search}
             placeholder="Search..."
-            onSubmitEditing={searchWithButton}
+            onSubmitEditing={searchWithEnter}
           />
           <TouchableOpacity onPress={searchWithButton}>
             <Icon name="search" size={23} />
