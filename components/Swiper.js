@@ -21,9 +21,10 @@ const CONTENT_WIDTH = ITEM_WIDTH - 40;
 const CONTENT_HEIGHT = ITEM_HEIGHT - 40;
 
 export default Slider = ({navigation}) => {
-  const itemArray = useSelector(state =>
-    state.news.filter((item, index) => index < 5),
+  const filteredNews = useSelector(state =>
+    state.news.hotNews.filter(item => item.urlToImage),
   );
+  const itemArray = filteredNews.filter((item, index) => index < 5);
   const currentDate = new Date();
 
   //   const date = Date.parse('2021-08-04T16:11:00Z');

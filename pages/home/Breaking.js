@@ -1,7 +1,7 @@
 import React from 'react';
 import {Dimensions, ScrollView} from 'react-native';
 import Swiper from '../../components/Swiper';
-import LatestNews from '../../components/LatestNews';
+import HotNewsList from '../../components/HotNewsList';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -19,7 +19,7 @@ export default Home = props => {
         backgroundColor: 'lightgrey',
       }}>
       <Swiper {...props} />
-      <LatestNews {...props} title="Latest News" />
+      <HotNewsList {...props} title="Latest News" />
     </ScrollView>
   );
 };

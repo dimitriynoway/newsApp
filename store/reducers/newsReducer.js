@@ -1,4 +1,8 @@
-const initialState = {news: [], fetchingNews: false, isDataFetched: false};
+const initialState = {
+  news: {hotNews: [], health: [], tech: [], sport: [], search: []},
+  fetchingNews: false,
+  isDataFetched: false,
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -12,10 +16,30 @@ export default (state = initialState, action) => {
         ...state,
         fetchingNews: false,
       };
-    case 'SET_NEWS':
+    case 'SET_HOT_NEWS':
       return {
         ...state,
-        news: [...action.payload.data],
+        news: {...state.news, hotNews: [...action.payload.data]},
+      };
+    case 'SET_HEALTH_NEWS':
+      return {
+        ...state,
+        news: {...state.news, health: [...action.payload.data]},
+      };
+    case 'SET_TECH_NEWS':
+      return {
+        ...state,
+        news: {...state.news, tech: [...action.payload.data]},
+      };
+    case 'SET_SPORT_NEWS':
+      return {
+        ...state,
+        news: {...state.news, sport: [...action.payload.data]},
+      };
+    case 'SET_SEARCH_NEWS':
+      return {
+        ...state,
+        news: {...state.news, search: [...action.payload.data]},
       };
     case 'IS_DATA_FETCHED':
       return {

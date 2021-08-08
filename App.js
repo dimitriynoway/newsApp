@@ -10,12 +10,12 @@ import store from './store/store';
 
 import BottomTabs from './navigation/BottomTabs';
 
-import fetchNews from './functions/fetchNews';
+import fetchHotNews from './functions/fetchHotNews';
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchNews());
+    dispatch(fetchHotNews());
   }, []);
   return (
     <NavigationContainer>

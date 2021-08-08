@@ -5,6 +5,8 @@ import {SafeAreaView, View, Text} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Home from '../pages/home/Home';
+import Settings from '../pages/Settings';
+import Search from '../pages/Search';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +51,7 @@ export default BottomTabs = () => {
           ),
         }}
         name="Search"
-        component={DetailsTemporary}
+        component={Search}
       />
 
       <Tab.Screen
@@ -76,7 +78,7 @@ export default BottomTabs = () => {
           ),
         }}
         name="Setting"
-        component={DetailsTemporary}
+        component={Settings}
       />
     </Tab.Navigator>
   );

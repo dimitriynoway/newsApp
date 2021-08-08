@@ -8,9 +8,41 @@ export const STOP_FETCHING_NEWS = () => {
     type: 'STOP_FETCHING_NEWS',
   };
 };
-export const SET_NEWS = data => {
+export const SET_HOT_NEWS = data => {
   return {
-    type: 'SET_NEWS',
+    type: 'SET_HOT_NEWS',
+    payload: {
+      data,
+    },
+  };
+};
+export const SET_HEALTH_NEWS = data => {
+  return {
+    type: 'SET_HEALTH_NEWS',
+    payload: {
+      data,
+    },
+  };
+};
+export const SET_TECH_NEWS = data => {
+  return {
+    type: 'SET_TECH_NEWS',
+    payload: {
+      data,
+    },
+  };
+};
+export const SET_SPORT_NEWS = data => {
+  return {
+    type: 'SET_SPORT_NEWS',
+    payload: {
+      data,
+    },
+  };
+};
+export const SET_SEARCH_NEWS = data => {
+  return {
+    type: 'SET_SEARCH_NEWS',
     payload: {
       data,
     },

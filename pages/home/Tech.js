@@ -1,10 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Dimensions, ScrollView} from 'react-native';
-import LatestNews from '../../components/LatestNews';
+import {useDispatch} from 'react-redux';
+import TechNewsList from '../../components/TechNewsList';
+
+import fetchTechNews from '../../functions/fetchTechNews';
 
 const {width, height} = Dimensions.get('screen');
-
+//!fetch Function call
 export default Tech = props => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchTechNews());
+  }, []);
   return (
     <ScrollView
       contentContainerStyle={{
@@ -17,7 +24,7 @@ export default Tech = props => {
         width: width,
         backgroundColor: 'lightgrey',
       }}>
-      <LatestNews {...props} title={'Tech'} />
+      <TechNewsList {...props} title={'Tech'} />
     </ScrollView>
   );
 };
