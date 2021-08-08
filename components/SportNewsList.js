@@ -9,6 +9,7 @@ const PADDING = width * 0.1;
 
 export default HealthNewsList = props => {
   const {title} = props;
+  const theme = useSelector(state => state.theme.themeDark);
   const filteredNews = useSelector(state =>
     state.news.news.sport.filter(item => item.urlToImage),
   );
@@ -20,7 +21,7 @@ export default HealthNewsList = props => {
       <View style={{paddingLeft: PADDING, paddingTop: PADDING / 2}}>
         <Text
           style={{
-            color: 'black',
+            color: theme ? 'white' : 'black',
             fontSize: 29,
             fontWeight: '500',
           }}>

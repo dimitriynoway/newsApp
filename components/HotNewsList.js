@@ -8,6 +8,7 @@ const {width, height} = Dimensions.get('screen');
 const PADDING = width * 0.1;
 
 export default HotNewsList = props => {
+  const theme = useSelector(state => state.theme.themeDark);
   const {title} = props;
   const filteredNews = useSelector(state =>
     state.news.news.hotNews.filter(item => item.urlToImage),
@@ -21,7 +22,7 @@ export default HotNewsList = props => {
       <View style={{paddingLeft: PADDING, paddingTop: PADDING / 2}}>
         <Text
           style={{
-            color: 'black',
+            color: theme ? 'white' : 'black',
             fontSize: 29,
             fontWeight: '500',
           }}>

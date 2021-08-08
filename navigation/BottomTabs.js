@@ -26,7 +26,7 @@ export default BottomTabs = () => {
   const theme = useSelector(state => state.theme.themeDark);
   return (
     <Tab.Navigator
-      sceneContainerStyle={{backgroundColor: 'green'}}
+      // sceneContainerStyle={{backgroundColor: 'green'}}
       tabBarOptions={{
         showLabel: false,
         style: {
@@ -44,10 +44,10 @@ export default BottomTabs = () => {
               color={
                 focused
                   ? theme
-                    ? '#6C757D'
+                    ? 'white'
                     : 'orange'
                   : theme
-                  ? 'white'
+                  ? '#6C757D'
                   : 'black'
               }
             />
@@ -65,10 +65,10 @@ export default BottomTabs = () => {
               color={
                 focused
                   ? theme
-                    ? '#6C757D'
+                    ? 'white'
                     : 'orange'
                   : theme
-                  ? 'white'
+                  ? '#6C757D'
                   : 'black'
               }
             />
@@ -87,10 +87,10 @@ export default BottomTabs = () => {
               color={
                 focused
                   ? theme
-                    ? '#6C757D'
+                    ? 'white'
                     : 'orange'
                   : theme
-                  ? 'white'
+                  ? '#6C757D'
                   : 'black'
               }
             />
@@ -108,10 +108,10 @@ export default BottomTabs = () => {
               color={
                 focused
                   ? theme
-                    ? '#6C757D'
+                    ? 'white'
                     : 'orange'
                   : theme
-                  ? 'white'
+                  ? '#6C757D'
                   : 'black'
               }
             />
