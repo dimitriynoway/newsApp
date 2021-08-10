@@ -1,6 +1,8 @@
 import {ApolloServer, gql} from 'apollo-server-express';
 import express from 'express';
 import mongoose from 'mongoose';
+import User from './models/User';
+import bcrypt from 'bcrypt';
 const dataBaseUrl =
   'mongodb+srv://admin:dfgoplyui@users.zjt9r.mongodb.net/Users?retryWrites=true&w=majority';
 
@@ -15,8 +17,9 @@ const typeDefs = gql`
     username: String!
   }
   type RegisterRes {
-    email: String!
-    username: String!
+    email: String
+    username: String
+    errors: [String]!
   }
   type LoginRes {
     email: String!
@@ -39,7 +42,25 @@ const resolvers = {
     },
   },
   Mutation: {
-    register: (_, {email, username, password}) => {
+    register: async (_, {email, username, password}) => {
+      //*if(!email||!username||!password) return {}
+      //*validate income data
+      try {
+        const isUserExiste = await User.findOne({email});
+        if (isUserExcite) return {errors: ['User already existed']};
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const newUser = new User({
+          email,
+          password: hashedPassword,
+          username,
+        });
+        const savedUser = await newUser.save();
+        console.log(savedUser);
+      } catch (err) {
+        console.log(err);
+      }
+      console.log(email, username, password);
       return {email, username};
     },
     login: (_, {email, password}) => {

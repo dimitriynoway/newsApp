@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
 import {View, Text, Button, Dimensions, StatusBar} from 'react-native';
+import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 import {useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 const {width, height} = Dimensions.get('screen');
@@ -12,6 +13,12 @@ import store from './store/store';
 import BottomTabs from './navigation/BottomTabs';
 
 import fetchHotNews from './functions/fetchHotNews';
+import Root from './navigation/Root';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache(),
+});
 
 const App = () => {
   const dispatch = useDispatch();
@@ -20,16 +27,7 @@ const App = () => {
   }, []);
   return (
     <NavigationContainer>
-      {/* <SafeAreaView
-        edges={['top']}
-        style={{
-          flex: 1,
-          width,
-          height,
-          backgroundColor: 'grey',
-        }}> */}
-      <BottomTabs />
-      {/* </SafeAreaView> */}
+      <Root />
     </NavigationContainer>
   );
 };
@@ -37,9 +35,9 @@ const App = () => {
 export default AppWrapper = () => {
   return (
     <Provider store={store}>
-      {/* <SafeAreaProvider> */}
-      <App />
-      {/* </SafeAreaProvider> */}
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
     </Provider>
   );
 };
