@@ -2,57 +2,55 @@ import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
+  Button,
   TextInput,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import {useMutation} from '@apollo/client';
 import registerGQL from '../apollo/gql/registerGQL';
 import {useDispatch, useSelector} from 'react-redux';
 import {SET_LOG_IN} from '../store/actions/authActions';
+import loginGQL from '../apollo/gql/loginGQL';
 const {width, height} = Dimensions.get('screen');
 
 export default Register = ({navigation}) => {
   const dispatch = useDispatch();
   const logged = useSelector(state => state.auth.logged);
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showError, setShowError] = useState(false);
   const [errorTitle, setErrorTitle] = useState('');
-  const [register] = useMutation(registerGQL);
+  const [login] = useMutation(loginGQL);
 
-  const submitRegister = async () => {
+  const submitLogin = async () => {
     try {
-      const res = await register({
+      const res = await login({
         variables: {
-          registerEmail: email,
-          registerUsername: username,
-          registerPassword: password,
+          loginEmail: email,
+          loginPassword: password,
         },
       });
       //console.log(res.data.register.error);
-      if (res?.data?.register?.error) {
-        setErrorTitle(res.data.register.error);
+      if (res?.data?.login?.error) {
+        setErrorTitle(res.data.login.error);
         setShowError(true);
       }
-      if (!res?.data?.register?.error) {
+      if (!res?.data?.login?.error) {
         setShowError(false);
         setErrorTitle('');
         dispatch(SET_LOG_IN());
         navigation.navigate('Main');
         setEmail('');
         setPassword('');
-        setUsername('');
       }
     } catch (error) {
       console.log(error);
     }
-    // navigation.navigate('Main');
   };
-  // useEffect(() => {
-  //   logged ? navigation.navigate('Main') : navigation.navigate('Register');
-  // }, [logged]);
+  //   useEffect(() => {
+  //     logged ? navigation.navigate('Main') : navigation.navigate('Register');
+  //   }, [logged]);
 
   return (
     <View
@@ -77,20 +75,6 @@ export default Register = ({navigation}) => {
         value={email}
       />
       <TextInput
-        placeholder="Username"
-        style={{
-          width: width * 0.8,
-          height: 50,
-          borderColor: 'rgba(255,255,255,0.6)',
-          borderWidth: 2,
-          padding: 10,
-          borderRadius: 10,
-          marginVertical: 10,
-        }}
-        onChangeText={setUsername}
-        value={username}
-      />
-      <TextInput
         textContentType="password"
         placeholder="Password"
         style={{
@@ -106,8 +90,7 @@ export default Register = ({navigation}) => {
         value={password}
       />
       {showError ? <Text>{errorTitle}</Text> : null}
-
-      <TouchableOpacity onPress={() => submitRegister()}>
+      <TouchableOpacity onPress={() => submitLogin()}>
         <Text
           style={{
             color: 'white',
@@ -117,14 +100,14 @@ export default Register = ({navigation}) => {
           Contunie
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
         <Text
           style={{
             color: 'white',
             fontSize: 18,
             fontWeight: '400',
           }}>
-          Log in
+          Register
         </Text>
       </TouchableOpacity>
     </View>

@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
 import {View, Text, Button, Dimensions, StatusBar} from 'react-native';
 import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 const {width, height} = Dimensions.get('screen');
 import {Provider} from 'react-redux';

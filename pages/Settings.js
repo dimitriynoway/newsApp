@@ -1,12 +1,21 @@
 import React, {useState} from 'react';
-import {View, Text, SafeAreaView, Dimensions, Switch} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Dimensions,
+  Switch,
+  TouchableOpacity,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useSelector, useDispatch} from 'react-redux';
+import {SET_LOG_OUT} from '../store/actions/authActions';
 const {width, height} = Dimensions.get('screen');
 import {SET_THEME} from '../store/actions/themeAction';
 const PADDING = width * 0.1;
-export default Settings = () => {
+export default Settings = ({navigation}) => {
   const theme = useSelector(state => state.theme.themeDark);
+  const logged = useSelector(state => state.auth.logged);
   const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => dispatch(SET_THEME());
@@ -14,6 +23,12 @@ export default Settings = () => {
   const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
   const [isEnabled3, setIsEnabled3] = useState(false);
   const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
+
+  const logOut = () => {
+    dispatch(SET_LOG_OUT());
+    navigation.navigate('Login');
+  };
+
   return (
     <SafeAreaView style={{backgroundColor: theme ? '#343A40' : 'white'}}>
       <View
@@ -81,15 +96,17 @@ export default Settings = () => {
                 }}>
                 dimab7412@gmail.com
               </Text>
-              <Text
-                style={{
-                  paddingTop: 10,
-                  color: 'orange',
-                  fontWeight: '500',
-                  fontSize: 16,
-                }}>
-                Sign out
-              </Text>
+              <TouchableOpacity onPress={() => logOut()}>
+                <Text
+                  style={{
+                    paddingTop: 10,
+                    color: 'orange',
+                    fontWeight: '500',
+                    fontSize: 16,
+                  }}>
+                  Sign out
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

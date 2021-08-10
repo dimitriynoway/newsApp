@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import User from './models/User';
 import bcrypt from 'bcrypt';
 const dataBaseUrl =
-  'mongodb+srv://admin:dfgoplyui@users.zjt9r.mongodb.net/Users?retryWrites=true&w=majority';
+  'mongodb+srv://admin:dfgoplyui@users.zjt9r.mongodb.net/newsApp?retryWrites=true&w=majority';
 
 const app = express();
 
@@ -19,11 +19,12 @@ const typeDefs = gql`
   type RegisterRes {
     email: String
     username: String
-    errors: [String]!
+    error: String
   }
   type LoginRes {
-    email: String!
+    email: String
     username: String
+    error: String
   }
   type Mutation {
     register(email: String!, username: String!, password: String!): RegisterRes!
@@ -43,11 +44,12 @@ const resolvers = {
   },
   Mutation: {
     register: async (_, {email, username, password}) => {
-      //*if(!email||!username||!password) return {}
+      if (!email || !username || !password)
+        return {error: 'Some fields are empty'};
       //*validate income data
       try {
         const isUserExiste = await User.findOne({email});
-        if (isUserExcite) return {errors: ['User already existed']};
+        if (isUserExiste) return {error: 'User already existed'};
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
         const newUser = new User({
@@ -56,15 +58,22 @@ const resolvers = {
           username,
         });
         const savedUser = await newUser.save();
-        console.log(savedUser);
+        return {email, username};
       } catch (err) {
-        console.log(err);
+        return {error: err};
       }
-      console.log(email, username, password);
-      return {email, username};
     },
-    login: (_, {email, password}) => {
-      return {email};
+    login: async (_, {email, password}) => {
+      try {
+        const user = await User.findOne({email});
+        if (!user) return {error: 'User does not exist'};
+        const isCorrectPassword = await bcrypt.compare(password, user.password);
+        if (!isCorrectPassword) return {error: 'Incorrect password'};
+        return {email: user.email, username: user.username};
+      } catch (error) {
+        console.log(error);
+        return {error};
+      }
     },
   },
 };
