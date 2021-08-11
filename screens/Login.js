@@ -10,7 +10,11 @@ import {
 import {useMutation} from '@apollo/client';
 import registerGQL from '../apollo/gql/registerGQL';
 import {useDispatch, useSelector} from 'react-redux';
-import {SET_LOG_IN} from '../store/actions/authActions';
+import {
+  SET_EMAIL,
+  SET_LOG_IN,
+  SET_USER_NAME,
+} from '../store/actions/authActions';
 import loginGQL from '../apollo/gql/loginGQL';
 const {width, height} = Dimensions.get('screen');
 
@@ -31,7 +35,8 @@ export default Register = ({navigation}) => {
           loginPassword: password,
         },
       });
-      //console.log(res.data.register.error);
+      console.log(res);
+
       if (res?.data?.login?.error) {
         setErrorTitle(res.data.login.error);
         setShowError(true);
@@ -40,6 +45,8 @@ export default Register = ({navigation}) => {
         setShowError(false);
         setErrorTitle('');
         dispatch(SET_LOG_IN());
+        dispatch(SET_EMAIL(res.data.login.email));
+        dispatch(SET_USER_NAME(res.data.login.username));
         navigation.navigate('Main');
         setEmail('');
         setPassword('');
@@ -48,9 +55,9 @@ export default Register = ({navigation}) => {
       console.log(error);
     }
   };
-  //   useEffect(() => {
-  //     logged ? navigation.navigate('Main') : navigation.navigate('Register');
-  //   }, [logged]);
+  useEffect(() => {
+    logged ? navigation.navigate('Main') : navigation.navigate('Login');
+  }, [logged]);
 
   return (
     <View

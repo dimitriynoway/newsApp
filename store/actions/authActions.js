@@ -8,3 +8,15 @@ export const SET_LOG_OUT = () => {
     type: 'SET_LOG_OUT',
   };
 };
+export const SET_USER_NAME = username => {
+  return {
+    type: 'SET_USER_NAME',
+    payload: {username},
+  };
+};
+export const SET_EMAIL = email => {
+  return {
+    type: 'SET_EMAIL',
+    payload: {email},
+  };
+};

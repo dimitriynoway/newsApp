@@ -39,8 +39,7 @@ export default Register = ({navigation}) => {
       if (!res?.data?.register?.error) {
         setShowError(false);
         setErrorTitle('');
-        dispatch(SET_LOG_IN());
-        navigation.navigate('Main');
+        navigation.navigate('Login');
         setEmail('');
         setPassword('');
         setUsername('');
@@ -50,9 +49,9 @@ export default Register = ({navigation}) => {
     }
     // navigation.navigate('Main');
   };
-  // useEffect(() => {
-  //   logged ? navigation.navigate('Main') : navigation.navigate('Register');
-  // }, [logged]);
+  useEffect(() => {
+    logged ? navigation.navigate('Main') : navigation.navigate('Login');
+  }, [logged]);
 
   return (
     <View

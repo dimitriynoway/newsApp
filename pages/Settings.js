@@ -16,13 +16,13 @@ const PADDING = width * 0.1;
 export default Settings = ({navigation}) => {
   const theme = useSelector(state => state.theme.themeDark);
   const logged = useSelector(state => state.auth.logged);
+  const username = useSelector(state => state.auth.user.username);
+  const email = useSelector(state => state.auth.user.email);
   const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => dispatch(SET_THEME());
   const [isEnabled2, setIsEnabled2] = useState(false);
   const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
-  const [isEnabled3, setIsEnabled3] = useState(false);
-  const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
 
   const logOut = () => {
     dispatch(SET_LOG_OUT());
@@ -86,7 +86,7 @@ export default Settings = ({navigation}) => {
                   fontSize: 18,
                   color: theme ? 'white' : 'black',
                 }}>
-                Dmitriy Babenko
+                {username}
               </Text>
               <Text
                 style={{
@@ -94,7 +94,7 @@ export default Settings = ({navigation}) => {
                   fontSize: 14,
                   color: theme ? 'white' : 'black',
                 }}>
-                dimab7412@gmail.com
+                {email}
               </Text>
               <TouchableOpacity onPress={() => logOut()}>
                 <Text
