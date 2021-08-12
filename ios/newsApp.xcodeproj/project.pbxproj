@@ -52,6 +52,7 @@
 		2EAA85F726B0A698003EF03C /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
 		2EAA85F826B0A698003EF03C /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		2EAA85F926B0A698003EF03C /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
+		2EB9444C26C47D52009382E0 /* newsApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = newsApp.entitlements; path = newsApp/newsApp.entitlements; sourceTree = "<group>"; };
 		37DB23E8027D2FD0CAED95BA /* libPods-newsApp-newsAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-newsApp-newsAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = newsApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8575381CADFF32D0E5281783 /* Pods-newsApp-newsAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsApp-newsAppTests.release.xcconfig"; path = "Target Support Files/Pods-newsApp-newsAppTests/Pods-newsApp-newsAppTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -102,6 +103,7 @@
 		13B07FAE1A68108700A75B9A /* newsApp */ = {
 			isa = PBXGroup;
 			children = (
+				2EB9444C26C47D52009382E0 /* newsApp.entitlements */,
 				2EAA85E926B0A62C003EF03C /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -523,6 +525,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = newsApp/newsApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = newsApp/Info.plist;
@@ -549,6 +552,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = newsApp/newsApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = newsApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

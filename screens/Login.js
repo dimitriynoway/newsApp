@@ -16,6 +16,8 @@ import {
   SET_USER_NAME,
 } from '../store/actions/authActions';
 import loginGQL from '../apollo/gql/loginGQL';
+import not from '../notifications/notification';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 const {width, height} = Dimensions.get('screen');
 
 export default Register = ({navigation}) => {
@@ -26,6 +28,30 @@ export default Register = ({navigation}) => {
   const [showError, setShowError] = useState(false);
   const [errorTitle, setErrorTitle] = useState('');
   const [login] = useMutation(loginGQL);
+
+  //test section
+  useEffect(() => {
+    PushNotificationIOS.addEventListener(
+      'localNotification',
+      onRemoteNotification,
+    );
+    console.log('useeffect');
+    return () => {
+      PushNotificationIOS.removeEventListener('localNotification');
+    };
+  });
+
+  const onRemoteNotification = notification => {
+    console.log('we are here');
+    const isClicked = notification.getData().userInteraction === 1;
+    console.log('sound', notification.getSound());
+    if (isClicked) {
+      console.log('notification is clicked');
+    } else {
+      // Do something else with push notification
+    }
+  };
+  //test section
 
   const submitLogin = async () => {
     try {
@@ -97,7 +123,7 @@ export default Register = ({navigation}) => {
         value={password}
       />
       {showError ? <Text>{errorTitle}</Text> : null}
-      <TouchableOpacity onPress={() => submitLogin()}>
+      <TouchableOpacity onPress={() => not('Сорри', 'Ты обосрался')}>
         <Text
           style={{
             color: 'white',
