@@ -12,6 +12,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {SET_LOG_OUT} from '../store/actions/authActions';
 const {width, height} = Dimensions.get('screen');
 import {SET_THEME} from '../store/actions/themeAction';
+import * as Keychain from 'react-native-keychain';
 const PADDING = width * 0.1;
 export default Settings = ({navigation}) => {
   const theme = useSelector(state => state.theme.themeDark);
@@ -26,6 +27,7 @@ export default Settings = ({navigation}) => {
 
   const logOut = () => {
     dispatch(SET_LOG_OUT());
+    Keychain.resetGenericPassword();
     navigation.navigate('Login');
   };
 

@@ -1,0 +1,31 @@
+//In Login.js
+
+
+//import not from '../notifications/notification';
+//import PushNotificationIOS from '@react-native-community/push-notification-ios';
+
+  //test section
+  // useEffect(() => {
+  //   PushNotificationIOS.addEventListener(
+  //     'localNotification',
+  //     onRemoteNotification,
+  //   );
+  //   console.log('useeffect');
+  //   return () => {
+  //     PushNotificationIOS.removeEventListener('localNotification');
+  //   };
+  // });
+
+  // const onRemoteNotification = notification => {
+  //   console.log('we are here');
+  //   const isClicked = notification.getData().userInteraction === 1;
+  //   console.log('sound', notification.getSound());
+  //   if (isClicked) {
+  //     console.log('notification is clicked');
+  //   } else {
+  //     // Do something else with push notification
+  //   }
+  // };
+  //test section
+
+  A A id 61159141601d3f11be2a5b76

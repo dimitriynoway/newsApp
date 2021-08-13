@@ -20,3 +20,9 @@ export const SET_EMAIL = email => {
     payload: {email},
   };
 };
+export const SET_USER_ID = id => {
+  return {
+    type: 'SET_USER_ID',
+    payload: {id},
+  };
+};

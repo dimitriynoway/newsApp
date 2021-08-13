@@ -1,4 +1,4 @@
-const initialState = {logged: false, user: {username: '', email: ''}};
+const initialState = {logged: false, user: {username: '', email: '', id: ''}};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -21,6 +21,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         user: {...state.user, email: action.payload.email},
+      };
+    case 'SET_USER_ID':
+      return {
+        ...state,
+        user: {...state.user, id: action.payload.id},
       };
 
     default:

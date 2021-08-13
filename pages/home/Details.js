@@ -14,6 +14,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Comment from 'react-native-vector-icons/FontAwesome';
 const {width, height} = Dimensions.get('screen');
 const PADDING = (width * 0.1) / 2;
+import {useMutation} from '@apollo/client';
+import addSavedNews from '../../apollo/gql/addSavedNews';
+import * as Keychain from 'react-native-keychain';
 const Title = ({title}) => {
   return (
     <View
@@ -70,6 +73,27 @@ const DetailText = ({description, content}) => {
 
 const Details = props => {
   const {item} = props.route.params;
+  const [setSavedNews] = useMutation(addSavedNews);
+
+  const savedNewsHandler = async () => {
+    const keychain_res = await Keychain.getGenericPassword();
+    if (keychain_res) {
+      const {keychain_user_id} = JSON.parse(keychain_res.username);
+      console.log(keychain_user_id);
+      const res = await setSavedNews({
+        variables: {
+          id: keychain_user_id,
+          addSavedNewsBody: item.content,
+          addSavedNewsUrlToImage: item.urlToImage,
+          addSavedNewsCreatedAt: item.publishedAt,
+          addSavedNewsTitle: item.title,
+        },
+      });
+      console.log(res);
+    }
+  };
+
+  console.log(item);
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <StatusBar hidden />
@@ -119,7 +143,7 @@ const Details = props => {
           <Icon name="share" size={26} color="white" />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => console.log('add to book marks')}
+          onPress={savedNewsHandler}
           style={{
             position: 'absolute',
             top: 2 * PADDING,

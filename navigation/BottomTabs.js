@@ -9,6 +9,7 @@ import Settings from '../pages/Settings';
 import Search from '../pages/search/Search';
 import SearchMain from '../pages/search/SearchMain';
 import {useSelector} from 'react-redux';
+import Saved from '../pages/saved/Saved';
 
 const Tab = createBottomTabNavigator();
 
@@ -97,7 +98,7 @@ export default BottomTabs = () => {
           ),
         }}
         name="Saved"
-        component={DetailsTemporary}
+        component={Saved}
       />
       <Tab.Screen
         options={{

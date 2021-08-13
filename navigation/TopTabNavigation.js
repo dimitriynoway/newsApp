@@ -6,6 +6,7 @@ import Tech from '../pages/home/Tech';
 import Sport from '../pages/home/Sport';
 import Breaking from '../pages/home/Breaking';
 import {useSelector} from 'react-redux';
+import Loading from '../components/Loading';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -13,7 +14,8 @@ const {width, heigth} = Dimensions.get('screen');
 
 export default TopTabNavigation = props => {
   const theme = useSelector(state => state.theme.themeDark);
-  return (
+  const isBreakingDataFetched = useSelector(state => state.news.isDataFetched);
+  return isBreakingDataFetched ? (
     <SafeAreaView
       style={{
         backgroundColor: theme ? '#343A40' : '#e9ecef',
@@ -45,5 +47,7 @@ export default TopTabNavigation = props => {
         <Tab.Screen name="Sport" component={Sport} {...props} />
       </Tab.Navigator>
     </SafeAreaView>
+  ) : (
+    <Loading />
   );
 };

@@ -49,9 +49,9 @@ export default Register = ({navigation}) => {
     }
     // navigation.navigate('Main');
   };
-  useEffect(() => {
-    logged ? navigation.navigate('Main') : navigation.navigate('Login');
-  }, [logged]);
+  // useEffect(() => {
+  //   logged ? navigation.navigate('Main') : navigation.navigate('Login');
+  // }, [logged]);
 
   return (
     <View

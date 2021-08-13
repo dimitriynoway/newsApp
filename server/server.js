@@ -11,6 +11,14 @@ const app = express();
 const typeDefs = gql`
   type Query {
     getUser: User!
+    getSavedNews(id: String!): [SavedNews]
+  }
+  type SavedNews {
+    title: String
+    body: String
+    urlToImage: String
+    createdAt: String
+    error: String
   }
   type User {
     email: String!
@@ -25,12 +33,28 @@ const typeDefs = gql`
     email: String
     username: String
     error: String
+    id: String
+  }
+  type SavedNewsRes {
+    title: String
+    body: String
+    urlToImage: String
+    createdAt: String
+    error: String
   }
   type Mutation {
     register(email: String!, username: String!, password: String!): RegisterRes!
     login(email: String!, password: String!): LoginRes!
+    addSavedNews(
+      id: String
+      title: String
+      body: String
+      urlToImage: String
+      createdAt: String
+    ): SavedNewsRes
   }
 `;
+// addSavedNews: (title)
 
 const resolvers = {
   Query: {
@@ -40,6 +64,15 @@ const resolvers = {
         username: 'dima',
         password: '123',
       };
+    },
+    getSavedNews: async (_, {id}) => {
+      try {
+        const user = await User.findById(id);
+        if (!user) return [{error: 'User does not exist'}];
+        return user.news;
+      } catch (error) {
+        throw new Error(error);
+      }
     },
   },
   Mutation: {
@@ -65,14 +98,29 @@ const resolvers = {
     },
     login: async (_, {email, password}) => {
       try {
+        if (!email || !password) return {error: 'Some fields are empty'};
         const user = await User.findOne({email});
         if (!user) return {error: 'User does not exist'};
         const isCorrectPassword = await bcrypt.compare(password, user.password);
         if (!isCorrectPassword) return {error: 'Incorrect password'};
-        return {email: user.email, username: user.username};
+        return {email: user.email, username: user.username, id: user._id};
       } catch (error) {
         console.log(error);
         return {error};
+      }
+    },
+    addSavedNews: async (_, {id, title, body, urlToImage, createdAt}) => {
+      try {
+        const user = await User.findByIdAndUpdate(
+          id,
+          {$push: {news: {title, body, urlToImage, createdAt}}},
+          {new: true},
+        );
+        if (!user) return {error: 'Error'};
+        console.log(title, body, urlToImage, createdAt);
+        return {title, body, urlToImage, createdAt};
+      } catch (error) {
+        console.log(error);
       }
     },
   },
@@ -92,7 +140,7 @@ startServer();
 const startServer2 = async () => {
   mongoose.connect(
     dataBaseUrl,
-    {useNewUrlParser: true, useUnifiedTopology: true},
+    {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true},
     () => console.log('db is connected'),
   );
   app.listen(4000, () => {

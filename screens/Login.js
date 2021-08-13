@@ -2,23 +2,23 @@ import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  Button,
   TextInput,
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
 import {useMutation} from '@apollo/client';
-import registerGQL from '../apollo/gql/registerGQL';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   SET_EMAIL,
   SET_LOG_IN,
+  SET_USER_ID,
   SET_USER_NAME,
 } from '../store/actions/authActions';
 import loginGQL from '../apollo/gql/loginGQL';
-import not from '../notifications/notification';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
-const {width, height} = Dimensions.get('screen');
+import * as Keychain from 'react-native-keychain';
+import Loading from '../components/Loading';
+
+const {width} = Dimensions.get('screen');
 
 export default Register = ({navigation}) => {
   const dispatch = useDispatch();
@@ -27,52 +27,68 @@ export default Register = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [showError, setShowError] = useState(false);
   const [errorTitle, setErrorTitle] = useState('');
-  const [login] = useMutation(loginGQL);
+  const [login_gql] = useMutation(loginGQL);
+  const [showLoading, setShowLoading] = useState(true);
 
-  //test section
   useEffect(() => {
-    PushNotificationIOS.addEventListener(
-      'localNotification',
-      onRemoteNotification,
-    );
-    console.log('useeffect');
-    return () => {
-      PushNotificationIOS.removeEventListener('localNotification');
-    };
-  });
+    checkUserStatus();
+  }, []);
 
-  const onRemoteNotification = notification => {
-    console.log('we are here');
-    const isClicked = notification.getData().userInteraction === 1;
-    console.log('sound', notification.getSound());
-    if (isClicked) {
-      console.log('notification is clicked');
-    } else {
-      // Do something else with push notification
+  useEffect(() => {
+    let timer = setTimeout(() => setShowLoading(false), 2000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const checkUserStatus = async () => {
+    try {
+      const keychain_res = await Keychain.getGenericPassword();
+      if (keychain_res) {
+        const {username} = keychain_res;
+        const {keychain_username, keychain_email, keychain_user_id} =
+          JSON.parse(username);
+        dispatch(SET_LOG_IN());
+        dispatch(SET_EMAIL(keychain_email));
+        dispatch(SET_USER_NAME(keychain_username));
+        dispatch(SET_USER_ID(keychain_user_id));
+        navigation.navigate('Main');
+      } else {
+        setShowLoading(false);
+      }
+    } catch (error) {
+      throw new Error(error);
     }
   };
-  //test section
 
   const submitLogin = async () => {
     try {
-      const res = await login({
+      const {
+        data: {login},
+      } = await login_gql({
         variables: {
           loginEmail: email,
           loginPassword: password,
         },
       });
-      console.log(res);
+      console.log(login);
 
-      if (res?.data?.login?.error) {
-        setErrorTitle(res.data.login.error);
+      if (login?.error) {
+        setErrorTitle(login.error);
         setShowError(true);
       }
-      if (!res?.data?.login?.error) {
+      if (!login?.error) {
         setShowError(false);
         setErrorTitle('');
         dispatch(SET_LOG_IN());
-        dispatch(SET_EMAIL(res.data.login.email));
-        dispatch(SET_USER_NAME(res.data.login.username));
+        dispatch(SET_EMAIL(login.email));
+        dispatch(SET_USER_NAME(login.username));
+        const info = JSON.stringify({
+          keychain_username: login.username,
+          keychain_email: login.email,
+          keychain_user_id: login.id,
+        });
+        await Keychain.setGenericPassword(info, 'password');
         navigation.navigate('Main');
         setEmail('');
         setPassword('');
@@ -81,11 +97,13 @@ export default Register = ({navigation}) => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    logged ? navigation.navigate('Main') : navigation.navigate('Login');
-  }, [logged]);
+  // useEffect(() => {
+  //   logged ? navigation.navigate('Main') : navigation.navigate('Login');
+  // }, [logged]);
 
-  return (
+  return showLoading ? (
+    <Loading backgroundColor="white" spinerColor="orange" />
+  ) : (
     <View
       style={{
         flex: 1,
@@ -123,7 +141,7 @@ export default Register = ({navigation}) => {
         value={password}
       />
       {showError ? <Text>{errorTitle}</Text> : null}
-      <TouchableOpacity onPress={() => not('Сорри', 'Ты обосрался')}>
+      <TouchableOpacity onPress={() => submitLogin()}>
         <Text
           style={{
             color: 'white',

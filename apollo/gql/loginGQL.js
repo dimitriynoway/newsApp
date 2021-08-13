@@ -6,6 +6,7 @@ export default gql`
       email
       username
       error
+      id
     }
   }
 `;
