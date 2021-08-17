@@ -1,31 +1,28 @@
-import {useLazyQuery} from '@apollo/client';
+import {useLazyQuery, useMutation} from '@apollo/client';
 import React from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+import {View, Text, SafeAreaView, ScrollView} from 'react-native';
 import getSavedNews from '../../apollo/gql/getSavedNews';
 import BreakingItem from '../../components/BreakingItem';
 const PADDING = 30;
 import * as Keychain from 'react-native-keychain';
+import {useDispatch, useSelector} from 'react-redux';
+import {SET_SAVED_NEWS} from '../../store/actions/newsActions';
 
 export default Saved = props => {
-  const [setId, {loading, data}] = useLazyQuery(getSavedNews, {
-    fetchPolicy: 'network-only',
-  });
+  const dispatch = useDispatch();
+  const id = useSelector(state => state.auth.user.id);
+  const savedNews = useSelector(state => state.news.news.saved);
+  // const [setId, {loading, data}] = useLazyQuery(getSavedNews, {
+  //   fetchPolicy: 'network-only',
+  // });
+  // const [update, setUpdate] = React.useState(false);
 
-  React.useEffect(async () => {
-    try {
-      const keychain_res = await Keychain.getGenericPassword();
-      if (keychain_res) {
-        const {username} = keychain_res;
-        const {keychain_user_id} = JSON.parse(username);
-        console.log(keychain_user_id);
-        setId({variables: {getSavedNewsId: keychain_user_id}});
-      }
-    } catch (error) {}
-  }, []);
-  return loading ? (
-    <Loading />
-  ) : (
-    <View style={{flex: 1}}>
+  // React.useEffect(async () => {
+  //   setId({variables: {getSavedNewsId: id}});
+  // }, [update]);
+
+  return (
+    <ScrollView style={{flex: 1}}>
       <View style={{paddingLeft: PADDING, paddingTop: PADDING / 2}}>
         <Text
           style={{
@@ -37,12 +34,11 @@ export default Saved = props => {
         </Text>
       </View>
       <View style={{marginTop: PADDING / 2}}>
-        {data &&
-          data.getSavedNews.map((item, index) => {
-            console.log(item);
+        {savedNews.length > 0 &&
+          savedNews.map((item, index) => {
             return <BreakingItem {...props} item={item} key={index} />;
           })}
       </View>
-    </View>
+    </ScrollView>
   );
 };

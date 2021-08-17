@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo, useState} from 'react';
 import {
   View,
   Text,
@@ -14,10 +14,23 @@ const PADDING = width * 0.1;
 const ITEM_PHOTO = width * 0.32;
 
 import {SharedElement} from 'react-navigation-shared-element';
+import {useSelector} from 'react-redux';
 
 const currentDate = new Date();
-
-export default BreakingItem = ({item, navigation}) => {
+const BreakingItem = ({item, navigation}) => {
+  const savedNewsArray = useSelector(state => state.news.news.saved);
+  const [saved, setSaved] = useState(
+    savedNewsArray.some(
+      i => JSON.stringify(i.title) == JSON.stringify(item.title),
+    ),
+  );
+  React.useEffect(() => {
+    setSaved(
+      savedNewsArray.some(
+        i => JSON.stringify(i.title) == JSON.stringify(item.title),
+      ),
+    );
+  }, [savedNewsArray]);
   return (
     <View
       style={{
@@ -66,7 +79,7 @@ export default BreakingItem = ({item, navigation}) => {
           <Icon
             name="bookmark"
             size={16}
-            color="orange"
+            color={saved ? 'orange' : 'grey'}
             style={{
               position: 'absolute',
               bottom: 10,
@@ -96,3 +109,4 @@ export default BreakingItem = ({item, navigation}) => {
     </View>
   );
 };
+export default memo(BreakingItem);

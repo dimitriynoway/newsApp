@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,8 @@ const PADDING = (width * 0.1) / 2;
 import {useMutation} from '@apollo/client';
 import addSavedNews from '../../apollo/gql/addSavedNews';
 import * as Keychain from 'react-native-keychain';
+import {useDispatch, useSelector} from 'react-redux';
+import {ADD_SAVED_NEWS} from '../../store/actions/newsActions';
 const Title = ({title}) => {
   return (
     <View
@@ -72,28 +74,37 @@ const DetailText = ({description, content}) => {
 };
 
 const Details = props => {
+  const dispatch = useDispatch();
   const {item} = props.route.params;
   const [setSavedNews] = useMutation(addSavedNews);
-
+  const id = useSelector(state => state.auth.user.id);
+  const savedNewsArray = useSelector(state => state.news.news.saved);
+  const [saved, setSaved] = useState(
+    savedNewsArray.length > 0 &&
+      savedNewsArray.some(
+        i => JSON.stringify(i.title) == JSON.stringify(item.title),
+      ),
+  );
   const savedNewsHandler = async () => {
-    const keychain_res = await Keychain.getGenericPassword();
-    if (keychain_res) {
-      const {keychain_user_id} = JSON.parse(keychain_res.username);
-      console.log(keychain_user_id);
-      const res = await setSavedNews({
-        variables: {
-          id: keychain_user_id,
-          addSavedNewsBody: item.content,
-          addSavedNewsUrlToImage: item.urlToImage,
-          addSavedNewsCreatedAt: item.publishedAt,
-          addSavedNewsTitle: item.title,
-        },
-      });
-      console.log(res);
+    const res = await setSavedNews({
+      variables: {
+        id,
+        addSavedNewsBody: item.content,
+        addSavedNewsUrlToImage: item.urlToImage,
+        addSavedNewsPublishedAt: item.publishedAt,
+        addSavedNewsTitle: item.title,
+      },
+    });
+    if (res) setSaved(true);
+    const addedNews = res.data.addSavedNews;
+    const existAlready = savedNewsArray.find(
+      item => item.title == addedNews.title,
+    );
+    if (!existAlready) dispatch(ADD_SAVED_NEWS(addedNews));
+    else {
+      console.log('you have already saved this news');
     }
   };
-
-  console.log(item);
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <StatusBar hidden />
@@ -109,19 +120,6 @@ const Details = props => {
               borderBottomRightRadius: 10,
             }}
           />
-          {/* <View
-            style={{
-              flex: 1,
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(0,0,0,.4)',
-              borderBottomRightRadius: 10,
-              borderBottomLeftRadius: 10,
-            }}
-          /> */}
         </SharedElement>
 
         <TouchableOpacity
@@ -134,7 +132,7 @@ const Details = props => {
           <Icon name="arrow-back-ios" size={26} color="white" />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => console.log('add to book marks')}
+          onPress={() => console.log('share')}
           style={{
             position: 'absolute',
             top: 2 * PADDING,
@@ -149,10 +147,10 @@ const Details = props => {
             top: 2 * PADDING,
             right: PADDING,
           }}>
-          <Icon name="bookmark" size={26} color="white" />
+          <Icon name="bookmark" size={26} color={saved ? 'orange' : 'white'} />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => console.log('add to book marks')}
+          onPress={() => console.log('watched')}
           style={{
             display: 'flex',
             flexDirection: 'row',
@@ -172,7 +170,7 @@ const Details = props => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => console.log('add to book marks')}
+          onPress={() => console.log('comments')}
           style={{
             display: 'flex',
             flexDirection: 'row',

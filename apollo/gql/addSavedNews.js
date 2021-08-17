@@ -5,20 +5,20 @@ export default gql`
     $id: String
     $addSavedNewsBody: String
     $addSavedNewsUrlToImage: String
-    $addSavedNewsCreatedAt: String
+    $addSavedNewsPublishedAt: String
     $addSavedNewsTitle: String
   ) {
     addSavedNews(
       id: $id
       body: $addSavedNewsBody
       urlToImage: $addSavedNewsUrlToImage
-      createdAt: $addSavedNewsCreatedAt
+      publishedAt: $addSavedNewsPublishedAt
       title: $addSavedNewsTitle
     ) {
       title
       body
       urlToImage
-      createdAt
+      publishedAt
       error
     }
   }

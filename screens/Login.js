@@ -17,49 +17,30 @@ import {
 import loginGQL from '../apollo/gql/loginGQL';
 import * as Keychain from 'react-native-keychain';
 import Loading from '../components/Loading';
-
+import fetchHotNews from '../functions/fetchHotNews';
+import getSavedNews from '../apollo/gql/getSavedNews';
+import {SET_SAVED_NEWS} from '../store/actions/newsActions';
+import checkUserStatus from './Login.checkUserStatus';
+import setSavedNews from './Login.setSavedNews';
 const {width} = Dimensions.get('screen');
 
 export default Register = ({navigation}) => {
+  //---dispatch
   const dispatch = useDispatch();
-  const logged = useSelector(state => state.auth.logged);
+  //---states
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showError, setShowError] = useState(false);
   const [errorTitle, setErrorTitle] = useState('');
-  const [login_gql] = useMutation(loginGQL);
   const [showLoading, setShowLoading] = useState(true);
-
-  useEffect(() => {
-    checkUserStatus();
+  //---gql
+  const [login_gql] = useMutation(loginGQL);
+  const [got_saved_gql] = useMutation(getSavedNews);
+  //---effects
+  useEffect(async () => {
+    await checkUserStatus(dispatch, navigation, got_saved_gql);
+    setShowLoading(false);
   }, []);
-
-  useEffect(() => {
-    let timer = setTimeout(() => setShowLoading(false), 2000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
-
-  const checkUserStatus = async () => {
-    try {
-      const keychain_res = await Keychain.getGenericPassword();
-      if (keychain_res) {
-        const {username} = keychain_res;
-        const {keychain_username, keychain_email, keychain_user_id} =
-          JSON.parse(username);
-        dispatch(SET_LOG_IN());
-        dispatch(SET_EMAIL(keychain_email));
-        dispatch(SET_USER_NAME(keychain_username));
-        dispatch(SET_USER_ID(keychain_user_id));
-        navigation.navigate('Main');
-      } else {
-        setShowLoading(false);
-      }
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
 
   const submitLogin = async () => {
     try {
@@ -71,7 +52,6 @@ export default Register = ({navigation}) => {
           loginPassword: password,
         },
       });
-      console.log(login);
 
       if (login?.error) {
         setErrorTitle(login.error);
@@ -80,15 +60,16 @@ export default Register = ({navigation}) => {
       if (!login?.error) {
         setShowError(false);
         setErrorTitle('');
-        dispatch(SET_LOG_IN());
         dispatch(SET_EMAIL(login.email));
         dispatch(SET_USER_NAME(login.username));
+        dispatch(SET_LOG_IN());
         const info = JSON.stringify({
           keychain_username: login.username,
           keychain_email: login.email,
           keychain_user_id: login.id,
         });
-        await Keychain.setGenericPassword(info, 'password');
+        await Keychain.setGenericPassword(info, 'secret_key');
+        dispatch(fetchHotNews());
         navigation.navigate('Main');
         setEmail('');
         setPassword('');
@@ -97,9 +78,6 @@ export default Register = ({navigation}) => {
       console.log(error);
     }
   };
-  // useEffect(() => {
-  //   logged ? navigation.navigate('Main') : navigation.navigate('Login');
-  // }, [logged]);
 
   return showLoading ? (
     <Loading backgroundColor="white" spinerColor="orange" />

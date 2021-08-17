@@ -27,17 +27,6 @@ export default Slider = ({navigation}) => {
   const itemArray = filteredNews.filter((item, index) => index < 5);
   const currentDate = new Date();
 
-  //   const date = Date.parse('2021-08-04T16:11:00Z');
-  //   const x = new Date();
-  //   const dateNow = Date.parse(x);
-  //   console.log('pastDate: ', date);
-  //   console.log('nowDate:', dateNow);
-  //   console.log('diffInTime:', dateNow - date);
-  //   console.log('diffInTimeInSecconds: ', (dateNow - date) / 1000);
-  //   console.log('diffInTimeInMinutes: ', (dateNow - date) / 1000 / 60);
-  //   console.log('diffInTimeInHours: ', (dateNow - date) / 1000 / 60 / 60);
-  //   console.log(parseTime('2021-08-04T16:11:00Z', new Date()));
-
   return (
     <View
       style={{

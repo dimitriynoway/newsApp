@@ -1,21 +1,24 @@
-import React, {useEffect} from 'react';
+import {useMutation} from '@apollo/client';
+import React, {useEffect, useMemo, useCallback, memo} from 'react';
 import {View, Text, SafeAreaView, Dimensions} from 'react-native';
 import {useSelector} from 'react-redux';
+import getSavedNews from '../apollo/gql/getSavedNews';
 import BreakingItem from './BreakingItem';
 
 const {width, height} = Dimensions.get('screen');
 
 const PADDING = width * 0.1;
 
-export default HotNewsList = props => {
+const HotNewsList = props => {
   const theme = useSelector(state => state.theme.themeDark);
+  const id = useSelector(state => state.auth.user.id);
   const {title} = props;
   const filteredNews = useSelector(state =>
     state.news.news.hotNews.filter(item => item.urlToImage),
   );
-  const newsArray5_15 = filteredNews.filter(
-    (item, index) => index > 7 && index < 21,
-  );
+  const newsArray5_15 = useMemo(() => {
+    return filteredNews.filter((item, index) => index > 7 && index < 21);
+  });
 
   return (
     <View style={{width}}>
@@ -38,3 +41,4 @@ export default HotNewsList = props => {
     </View>
   );
 };
+export default MemoizedHotNewsList = memo(HotNewsList);

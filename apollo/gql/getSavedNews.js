@@ -1,12 +1,12 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  query ($getSavedNewsId: String!) {
+  mutation ($getSavedNewsId: String!) {
     getSavedNews(id: $getSavedNewsId) {
       title
       body
       urlToImage
-      createdAt
+      publishedAt
       error
     }
   }

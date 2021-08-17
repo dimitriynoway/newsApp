@@ -24,19 +24,18 @@ export default Register = ({navigation}) => {
 
   const submitRegister = async () => {
     try {
-      const res = await register({
+      const {data} = await register({
         variables: {
           registerEmail: email,
           registerUsername: username,
           registerPassword: password,
         },
       });
-      //console.log(res.data.register.error);
-      if (res?.data?.register?.error) {
-        setErrorTitle(res.data.register.error);
+      if (data?.register?.error) {
+        setErrorTitle(data.register.error);
         setShowError(true);
       }
-      if (!res?.data?.register?.error) {
+      if (!data?.register?.error) {
         setShowError(false);
         setErrorTitle('');
         navigation.navigate('Login');
@@ -47,11 +46,7 @@ export default Register = ({navigation}) => {
     } catch (error) {
       console.log(error);
     }
-    // navigation.navigate('Main');
   };
-  // useEffect(() => {
-  //   logged ? navigation.navigate('Main') : navigation.navigate('Login');
-  // }, [logged]);
 
   return (
     <View

@@ -10,20 +10,41 @@ import Search from '../pages/search/Search';
 import SearchMain from '../pages/search/SearchMain';
 import {useSelector} from 'react-redux';
 import Saved from '../pages/saved/Saved';
+import * as Keychain from 'react-native-keychain';
+import {
+  SET_EMAIL,
+  SET_LOG_IN,
+  SET_USER_ID,
+  SET_USER_NAME,
+} from '../store/actions/authActions';
+import fetchHotNews from '../functions/fetchHotNews';
+import SavedMain from '../pages/saved/SavedMain';
 
 const Tab = createBottomTabNavigator();
 
-const DetailsTemporary = () => {
-  return (
-    <SafeAreaView>
-      <View>
-        <Text>Details</Text>
-      </View>
-    </SafeAreaView>
-  );
-};
-
-export default BottomTabs = () => {
+export default BottomTabs = ({navigation}) => {
+  const checkUserStatus = async () => {
+    try {
+      const keychain_res = await Keychain.getGenericPassword();
+      if (keychain_res) {
+        const {username} = keychain_res;
+        const {keychain_username, keychain_email, keychain_user_id} =
+          JSON.parse(username);
+        dispatch(SET_LOG_IN());
+        dispatch(SET_EMAIL(keychain_email));
+        dispatch(SET_USER_NAME(keychain_username));
+        dispatch(SET_USER_ID(keychain_user_id));
+        dispatch(fetchHotNews());
+      } else {
+        navigation.navigate('Login');
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  React.useEffect(async () => {
+    await checkUserStatus();
+  }, []);
   const theme = useSelector(state => state.theme.themeDark);
   return (
     <Tab.Navigator
@@ -98,7 +119,7 @@ export default BottomTabs = () => {
           ),
         }}
         name="Saved"
-        component={Saved}
+        component={SavedMain}
       />
       <Tab.Screen
         options={{

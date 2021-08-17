@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
       title: {type: String},
       body: {type: String},
       urlToImage: {type: String},
-      createdAt: {type: String},
+      publishedAt: {type: String},
     },
   ],
 });

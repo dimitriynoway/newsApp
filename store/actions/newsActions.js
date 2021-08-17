@@ -48,6 +48,22 @@ export const SET_SEARCH_NEWS = data => {
     },
   };
 };
+export const SET_SAVED_NEWS = data => {
+  return {
+    type: 'SET_SAVED_NEWS',
+    payload: {
+      data,
+    },
+  };
+};
+export const ADD_SAVED_NEWS = data => {
+  return {
+    type: 'ADD_SAVED_NEWS',
+    payload: {
+      data,
+    },
+  };
+};
 export const IS_DATA_FETCHED = () => {
   return {
     type: 'IS_DATA_FETCHED',
